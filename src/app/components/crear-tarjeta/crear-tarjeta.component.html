@@ -2,43 +2,67 @@
     <div class="card-body">
         <h5 class="titulo">Crear Tarjeta</h5>
 
-        <form>
+        <form [formGroup]="miFormulario"
+              (ngSubmit)="crearTarjeta()">
+
             <div class="input-group input-group-lg mb-3">
                 <span class="input-group-text" id="basic-addon1">
-                    <i class="fas fa-circle-user"></i>
+                    <i  [class.green-icon]="this.miFormulario.get('titular')?.valid"
+                        [class.red-icon]="this.miFormulario.get('titular')?.invalid && this.miFormulario.get('titular')?.touched"
+                        class="fas fa-circle-user"></i>
                 </span>
-                <input class="form-control" type="text" placeholder="Titular">
+                <input formControlName="titular" 
+                       class="form-control" 
+                       type="text" placeholder="Titular">
             </div>
+
             <div class="input-group input-group-lg mb-3">
                 <span class="input-group-text" id="basic-addon1">
-                    <i class="fas fa-credit-card"></i>
+                    <i  [class.green-icon]="this.miFormulario.get('numeroTarjeta')?.valid"
+                        [class.red-icon]="this.miFormulario.get('numeroTarjeta')?.invalid &&this.miFormulario.get('numeroTarjeta')?.touched"
+                        class="fas fa-credit-card"></i>
                 </span>
-                <input class="form-control" type="text" placeholder="Numero Tarjeta">
+                <input formControlName="numeroTarjeta"
+                       maxlength="16"  class="form-control" 
+                       type="text" placeholder="Numero Tarjeta">
             </div>
 
             <div class="row">
                 <div class="col-lg-7">
                     <div class="input-group  mb-3">
                         <span class="input-group-text" id="basic-addon1">
-                            <i class="fas fa-calendar-alt"></i>
+                            <i  [class.green-icon]="this.miFormulario.get('fechaExpiracion')?.valid" 
+                                [class.red-icon]="this.miFormulario.get('fechaExpiracion')?.invalid && this.miFormulario.get('fechaExpiracion')?.touched"
+                               
+                                class="fas fa-calendar-alt"></i>
                         </span>
-                        <input class="form-control" type="text" placeholder="MM/YY">
+                        <input formControlName="fechaExpiracion" 
+                               maxlength="5" class="form-control" type="text" 
+                               placeholder="MM/YY">
                     </div>
                 </div>
                 <div class="col-lg-5">
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">
-                            <i class="fas fa-key"></i>
+                            <i  [class.green-icon]="this.miFormulario.get('cvv')?.valid"
+                                [class.red-icon]="this.miFormulario.get('cvv')?.invalid  && this.miFormulario.get('cvv')?.touched"
+                                
+                                class="fas fa-key"></i>
                         </span>
-                        <input class="form-control" type="password" placeholder="CVV">
+                        <input formControlName="cvv" 
+                               maxlength="4"class="form-control" type="password" placeholder="CVV">
                     </div>
                 </div>
             </div>
 
             <div class="d-grid gap-2">
-                <button class="btn btn-success btn-lg" type="button"><i class="fas fa-database"></i> Crear</button>
+                <button [disabled]="miFormulario.invalid"
+                        class="btn btn-secondary btn-lg" type="submit">
+                        <i class="fas fa-database"></i>
+                    Crear
+                </button>
             </div>
-            
+
         </form>
 
     </div>
