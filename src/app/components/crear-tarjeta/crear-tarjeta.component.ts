@@ -12,6 +12,8 @@ import { TarjetaService } from '../../services/tarjeta.service';
 })
 export class CrearTarjetaComponent implements OnInit {
   miFormulario: FormGroup;
+  loading: boolean = false;
+
 
   constructor( private fb: FormBuilder,
                private _tarjetaService: TarjetaService,
@@ -19,7 +21,8 @@ export class CrearTarjetaComponent implements OnInit {
               ) 
   
   
-  {
+  { 
+    //Validacion del formulario.    
     this.miFormulario = this.fb.group({
       titular: ['', Validators.required ],
       numeroTarjeta: ['', [Validators.required, Validators.minLength(16), Validators.maxLength(16)] ],
@@ -45,15 +48,20 @@ export class CrearTarjetaComponent implements OnInit {
       fechaActualizacion: new Date()
       }
 
+      //spinner.
+      this.loading = true;
+
       //Se conecta con el servicio y se envia tarjeta para crear en firestores.
       this._tarjetaService.guardarTarjeta(TARJETA).then(()=>{
+        this.loading = false;
         console.log('tarjeta creada');
         this.toastr.success('La tarjeta fue registrada con exito.', 'Tarjeta registrada')
         this.miFormulario.reset();
         
       }, error =>{
+        this.loading = false;
         console.log('error: ',error);
-        
+        this.toastr.error('No se pudo crear la tarjeta.', 'Error')
       })
   }
  
