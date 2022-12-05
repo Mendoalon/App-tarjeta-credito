@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { TarjetaCredito } from 'src/app/models/TarjetaCredito';
 import { TarjetaService } from '../../services/tarjeta.service';
 
@@ -13,7 +14,8 @@ export class CrearTarjetaComponent implements OnInit {
   miFormulario: FormGroup;
 
   constructor( private fb: FormBuilder,
-               private _tarjetaService: TarjetaService
+               private _tarjetaService: TarjetaService,
+               private toastr: ToastrService
               ) 
   
   
@@ -43,9 +45,10 @@ export class CrearTarjetaComponent implements OnInit {
       fechaActualizacion: new Date()
       }
 
-
+      //Se conecta con el servicio y se envia tarjeta para crear en firestores.
       this._tarjetaService.guardarTarjeta(TARJETA).then(()=>{
         console.log('tarjeta creada');
+        this.toastr.success('La tarjeta fue registrada con exito.', 'Tarjeta registrada')
         this.miFormulario.reset();
         
       }, error =>{
