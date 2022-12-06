@@ -27,7 +27,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []
           },
@@ -98,8 +100,21 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "Tarjeta-Credito:build:production",
+            "firebaseProject": "app-tarjeta-credito",
+            "firebaseHostingSite": "app-tarjeta-credito"
+          }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "3e8052fe-4c4c-4fb2-a85f-5f62a2f05887"
   }
 }

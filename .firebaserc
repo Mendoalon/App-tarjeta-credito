@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "app-tarjeta-credito": {
+      "hosting": {
+        "Tarjeta-Credito": [
+          "app-tarjeta-credito"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "app-tarjeta-credito"
+  }
+}
