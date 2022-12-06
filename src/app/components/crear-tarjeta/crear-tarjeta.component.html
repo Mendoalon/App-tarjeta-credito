@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-body">
-        <h5 class="titulo">Crear Tarjeta</h5>
+        <h5 class="titulo">{{titulo | titlecase}}</h5>
 
 
         <!-- Spinner  -->
@@ -11,7 +11,7 @@
 
         <!--Formulario reactivo con validacion-->
         <form [formGroup]="miFormulario"
-              (ngSubmit)="crearTarjeta()">
+              (ngSubmit)="GuardarTarjeta()">
 
             <div class="input-group input-group-lg mb-3">
                 <span class="input-group-text" id="basic-addon1">
@@ -67,7 +67,7 @@
                 <button [disabled]="miFormulario.invalid"
                         class="btn btn-secondary btn-lg" type="submit">
                         <i class="fas fa-database"></i>
-                    Crear
+                    Aceptar
                 </button>
             </div>
 

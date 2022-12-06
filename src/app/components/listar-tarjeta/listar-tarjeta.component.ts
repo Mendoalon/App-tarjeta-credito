@@ -30,23 +30,25 @@ export class ListarTarjetaComponent implements OnInit {
           ...tarjeta.payload.doc.data()
         });
       });
-
-      console.log(this.listTarjetas);
-      
+     
 
     })
   }
 
- //Funcion para eliminar tarjeta tarjetas.
+ //Funcion para eliminar tarjeta.
   eliminarTarjeta(id: any){
     this._tarjetaService.eliminarTarjeta(id).then(()=>{
       this.toastr.error('La tarjeta fue eliminada con exito!','Tarjeta eliminada.')
     }, error=>{
       this.toastr.error('Ocurrio un error.','Error.')
-      console.log(error);
       
     })
     
+  }
+
+   //Funcion para editar tarjetas.
+  editarTarjeta(tarjeta: TarjetaCredito){
+    this._tarjetaService.addTarjetaEdit(tarjeta)
   }
 
 }

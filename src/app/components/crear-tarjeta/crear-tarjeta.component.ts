@@ -13,6 +13,8 @@ import { TarjetaService } from '../../services/tarjeta.service';
 export class CrearTarjetaComponent implements OnInit {
   miFormulario: FormGroup;
   loading: boolean = false;
+  titulo: string = 'agregar tarjeta';
+  id: string | undefined;
 
 
   constructor( private fb: FormBuilder,
@@ -33,13 +35,65 @@ export class CrearTarjetaComponent implements OnInit {
    }
 
   ngOnInit(): void {
+
+    //Funcion para cargar datos para editar el formulario.
+    this._tarjetaService.getTarjetaEdita().subscribe(data=>{
+      this.id = data.id;
+      this.titulo = 'editar tarjeta';
+
+      this.miFormulario.patchValue({
+        titular: data.titular,
+        numeroTarjeta: data.numeroTarjeta,
+        fechaExpiracion: data.fechaExpiracion,
+        cvv: data.cvv,
+      })
+      
+    })
   }
 
   //Funcion para enviar formulario.
-  crearTarjeta(){
+  GuardarTarjeta(){
+
+    if(this.id === undefined){
+      //Creamos una tarjeta
+      this.agregarTarjeta();
+    }else{
+      //Editamos una tarjeta
+      this.editarTarjeta(this.id);
+    }
     
-    //Creacion de objeto tarjeta.
-    const TARJETA: TarjetaCredito ={
+   
+  }
+
+  editarTarjeta(id: string){
+    const TARJETA: any ={
+      titular: this.miFormulario.value.titular,
+      numeroTarjeta: this.miFormulario.value.numeroTarjeta,
+      fechaExpiracion: this.miFormulario.value.fechaExpiracion,
+      cvv: this.miFormulario.value.cvv,
+      fechaActualizacion: new Date()
+      }
+
+      this.loading = true;
+      this._tarjetaService.editarTarjeta(id,TARJETA ).then(()=>{
+        this.loading = false;
+        this.titulo = 'agregar tarjeta';
+        this.miFormulario.reset();
+        this.id =  undefined;
+        this.toastr.info('La tarjeta fue actualizada con exito', 'Registro actualizado')
+      },error=>{
+
+      } )
+
+  }
+
+ 
+
+  agregarTarjeta(){
+
+
+     //Creacion de objeto tarjeta.
+     const TARJETA: TarjetaCredito ={
       titular: this.miFormulario.value.titular,
       numeroTarjeta: this.miFormulario.value.numeroTarjeta,
       fechaExpiracion: this.miFormulario.value.fechaExpiracion,
@@ -54,15 +108,16 @@ export class CrearTarjetaComponent implements OnInit {
       //Se conecta con el servicio y se envia tarjeta para crear en firestores.
       this._tarjetaService.guardarTarjeta(TARJETA).then(()=>{
         this.loading = false;
-        console.log('tarjeta creada');
         this.toastr.success('La tarjeta fue registrada con exito.', 'Tarjeta registrada')
         this.miFormulario.reset();
         
       }, error =>{
         this.loading = false;
-        console.log('error: ',error);
         this.toastr.error('No se pudo crear la tarjeta.', 'Error')
       })
+
   }
- 
+
+
+
 }
